@@ -60,7 +60,19 @@ app.use(morgan('dev'));
 // Global API rate limiting
 app.use('/api', apiLimiter);
 
-// Health check endpoint
+// Root and Health check endpoints (for Render / Vercel uptime checks)
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    service: 'AI Storybook Backend',
+    message: 'Backend server is running smoothly! ✨',
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
