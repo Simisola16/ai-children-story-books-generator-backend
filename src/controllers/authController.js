@@ -63,7 +63,7 @@ const registerUser = async (req, res) => {
     console.error('[Auth Register Error]', error);
     return res.status(500).json({
       success: false,
-      message: 'Server error during registration',
+      message: error.message || 'Server error during registration',
     });
   }
 };
