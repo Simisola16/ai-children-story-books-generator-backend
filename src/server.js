@@ -79,10 +79,16 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+const mongoose = require('mongoose');
+
 app.get('/api/health', (req, res) => {
+  const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+  const dbStatus = states[mongoose.connection.readyState] || 'unknown';
+
   res.json({
     status: 'ok',
     service: 'AI Storybook Backend',
+    database: dbStatus,
     timestamp: new Date().toISOString(),
   });
 });
