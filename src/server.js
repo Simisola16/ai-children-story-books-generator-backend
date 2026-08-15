@@ -30,7 +30,13 @@ const server = http.createServer(app);
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
 const io = new Server(server, {
   cors: {
-    origin: [clientUrl, 'http://localhost:5173', 'http://127.0.0.1:5173'],
+    origin: [
+      clientUrl,
+      'http://localhost:5173',
+      'http://127.0.0.1:5173',
+      'https://childrenstorybooksgenerator.vercel.app',
+      /childrenstorybooksgenerator.*\.vercel\.app$/,
+    ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true,
   },
