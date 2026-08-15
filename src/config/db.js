@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 let lastDbError = null;
 
 const connectDB = async () => {
