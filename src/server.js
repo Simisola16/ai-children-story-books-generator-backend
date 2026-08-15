@@ -11,7 +11,7 @@ const path = require('path');
 // Load environment variables explicitly from backend root
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
-const connectDB = require('./config/db');
+const { connectDB, getLastDbError } = require('./config/db');
 const { initializeSocket } = require('./socket/socketHandler');
 const { apiLimiter } = require('./middleware/rateLimiter');
 
@@ -89,7 +89,26 @@ app.get('/api/health', (req, res) => {
     status: 'ok',
     service: 'AI Storybook Backend',
     database: dbStatus,
+    error: getLastDbError(),
     timestamp: new Date().toISOString(),
+  });
+});
+
+app.get('/api/db-diagnostics', (req, res) => {
+  const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+  const dbStatus = states[mongoose.connection.readyState] || 'unknown';
+  const rawUri = process.env.MONGODB_URI || '';
+  const maskedUri = rawUri
+    ? rawUri.replace(/:\/\/([^:]+):([^@]+)@/, '://$1:****@')
+    : 'NOT_SET';
+
+  res.json({
+    databaseState: dbStatus,
+    readyStateCode: mongoose.connection.readyState,
+    hasMongoUriEnv: Boolean(rawUri),
+    maskedUri: maskedUri,
+    lastDbError: getLastDbError(),
+    nodeEnv: process.env.NODE_ENV || 'development',
   });
 });
 
