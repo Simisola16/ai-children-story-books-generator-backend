@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Nunito:wght@400;600;700;800&display=swap');
+
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #F6EBD3;
+      color: #3A342E;
+      font-family: 'Literata', Georgia, serif;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 297mm;
+      height: 210mm;
+      page-break-after: always;
+      position: relative;
+      background-color: #F6EBD3;
+      background-image: radial-gradient(#E8DBC0 1px, transparent 1px);
+      background-size: 24px 24px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .page:last-child {
+      page-break-after: auto;
+    }
+
+    /* Cover Page */
+    .cover-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px;
+      position: relative;
+      border: 12px solid #2E1F3D;
+      outline: 4px dashed #F2A93B;
+      outline-offset: -20px;
+    }
+
+    .cover-header {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .cover-kicker {
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #C4436B;
+      margin-bottom: 8px;
+    }
+
+    .cover-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 42px;
+      font-weight: 900;
+      color: #2E1F3D;
+      line-height: 1.15;
+      max-width: 800px;
+      text-shadow: 2px 2px 0px #F2A93B;
+    }
+
+    .cover-art-wrapper {
+      width: 480px;
+      height: 320px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(46, 31, 61, 0.2);
+      border: 6px solid #FFFDF7;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cover-art-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cover-footer {
+      text-align: center;
+      font-family: 'Nunito', sans-serif;
+      margin-bottom: 10px;
+    }
+
+    .cover-author {
+      font-size: 20px;
+      font-weight: 800;
+      color: #2E1F3D;
+    }
+
+    .cover-tag {
+      font-size: 14px;
+      color: #4C8B5B;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* Spread Layout: Left (Illustration) + Right (Story Text) */
+    .spread-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+
+    .spread-left {
+      width: 50%;
+      height: 100%;
+      padding: 36px 24px 36px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .spread-right {
+      width: 50%;
+      height: 100%;
+      padding: 48px 40px 48px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      border-left: 1px solid rgba(46, 31, 61, 0.15);
+      box-shadow: inset 15px 0 25px -10px rgba(46, 31, 61, 0.1);
+    }
+
+    .illustration-frame {
+      width: 100%;
+      height: 100%;
+      max-height: 580px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 5px solid #FFFDF7;
+      box-shadow: 0 10px 25px rgba(46, 31, 61, 0.15);
+      background-color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .illustration-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .story-chapter-tag {
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #C4436B;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .story-body-text {
+      font-family: 'Literata', Georgia, serif;
+      font-size: 24px;
+      line-height: 1.65;
+      color: #3A342E;
+      font-weight: 400;
+      margin-top: auto;
+      margin-bottom: auto;
+      text-indent: 0;
+    }
+
+    .story-body-text::first-letter {
+      font-family: 'Fraunces', serif;
+      font-size: 64px;
+      line-height: 52px;
+      float: left;
+      margin-right: 12px;
+      margin-top: 4px;
+      color: #F2A93B;
+      font-weight: 900;
+      text-shadow: 2px 2px 0 #2E1F3D;
+    }
+
+    .page-footer-num {
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: #2E1F3D;
+      opacity: 0.6;
+      text-align: right;
+    }
+
+    /* Moral / Back Cover Page */
+    .back-cover-container {
+      width: 100%;
+      height: 100%;
+      padding: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 12px solid #2E1F3D;
+      outline: 4px dashed #4C8B5B;
+      outline-offset: -20px;
+    }
+
+    .moral-badge {
+      display: inline-block;
+      padding: 10px 24px;
+      background-color: #F2A93B;
+      color: #2E1F3D;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(242, 169, 59, 0.4);
+    }
+
+    .moral-text {
+      font-family: 'Fraunces', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #2E1F3D;
+      max-width: 800px;
+      line-height: 1.4;
+      margin-bottom: 36px;
+    }
+
+    .the-end-seal {
+      font-family: 'Fraunces', serif;
+      font-size: 36px;
+      font-weight: 900;
+      color: #C4436B;
+      letter-spacing: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Front Cover -->
+  <div class="page">
+    <div class="cover-container">
+      <div class="cover-header">
+        <div class="cover-kicker">A Personalized Storybook for {{childName}}</div>
+        <h1 class="cover-title">{{title}}</h1>
+      </div>
+
+      <div class="cover-art-wrapper">
+        <img class="cover-art-img" src="{{coverImageUrl}}" alt="Cover Art" />
+      </div>
+
+      <div class="cover-footer">
+        <div class="cover-author">Starring {{childName}}</div>
+        <div class="cover-tag">Illustrated in {{artStyle}} Style &bull; Theme: {{theme}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Story Pages (Facing Spreads) -->
+  {{#pages}}
+  <div class="page">
+    <div class="spread-container">
+      <!-- Left: Illustration -->
+      <div class="spread-left">
+        <div class="illustration-frame">
+          <img class="illustration-img" src="{{imageUrl}}" alt="Page {{pageNumber}} Illustration" />
+        </div>
+      </div>
+
+      <!-- Right: Story Text -->
+      <div class="spread-right">
+        <div class="story-chapter-tag">
+          <span>&starf; Page {{pageNumber}} of {{totalPages}}</span>
+        </div>
+
+        <p class="story-body-text">{{text}}</p>
+
+        <div class="page-footer-num">{{pageNumber}}</div>
+      </div>
+    </div>
+  </div>
+  {{/pages}}
+
+  <!-- 3. Back Cover / Moral of Story -->
+  <div class="page">
+    <div class="back-cover-container">
+      <div class="moral-badge">&star; The Heart of the Story &star;</div>
+      <div class="moral-text">&ldquo;{{moral}}&rdquo;</div>
+      <div class="the-end-seal">THE END</div>
+      <p style="font-family: 'Nunito', sans-serif; font-size: 16px; margin-top: 24px; color: #4C8B5B; font-weight: 700;">
+        Created with love for {{childName}} &bull; Keep dreaming and exploring!
+      </p>
+    </div>
+  </div>
+
+</body>
+</html>
