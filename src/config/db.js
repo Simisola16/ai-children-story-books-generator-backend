@@ -20,8 +20,8 @@ const connectDB = async () => {
 
   try {
     const conn = await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 20000,
-      connectTimeoutMS: 20000,
+      serverSelectionTimeoutMS: 15000,
+      connectTimeoutMS: 15000,
     });
     lastDbError = null;
     console.log(`[MongoDB] Connected successfully to: ${conn.connection.host}`);
@@ -29,6 +29,9 @@ const connectDB = async () => {
   } catch (error) {
     lastDbError = error.message;
     console.error(`[MongoDB Error] Connection failed: ${error.message}`);
+    if (error.message.includes('whitelist') || error.message.includes('querySrv') || error.message.includes('ETIMEOUT')) {
+      console.error('[MongoDB Tip] Make sure 0.0.0.0/0 (Access from Anywhere) is added to MongoDB Atlas Network Access.');
+    }
     console.log('[MongoDB] Retrying connection in 5 seconds...');
     setTimeout(connectDB, 5000);
   }
