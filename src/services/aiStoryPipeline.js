@@ -114,9 +114,10 @@ async function runStoryPipeline(storyId) {
         message: `Creating illustration for Page ${pageNum} (${story.artStyle} style)...`,
       });
 
-      // 1. Generate image with consistent character sheet
+      // 1. Generate image with consistent character sheet & exact page text alignment
       const imageResult = await generateStoryImage({
         pageNumber: pageNum,
+        pageText: page.text,
         pageImagePrompt: page.imagePrompt,
         avatar: child.avatar,
         childName: child.name,
